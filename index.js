@@ -13,7 +13,7 @@ const authRoute = require("./routes/auth");
 app.use(express.json());
 
 app.use(cors());
-//hi
+//hiuu
 app.use("/api/user", authRoute);
 app.use("/api/posts", postRoute);
 app.use((req, res, next) => {
