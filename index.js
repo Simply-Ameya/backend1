@@ -7,6 +7,8 @@ require("dotenv").config();
 const booksRoute = require("./routes/books");
 const winston = require("winston");
 
+const PORT = process.env.PORT || 3000;
+
 mongoose
   .connect(process.env.mongo_url, () => {
     console.log("connected");
@@ -42,6 +44,6 @@ app.use((err, req, res, next) => {
 
 app.use("/api/books", booksRoute);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("server is running");
 });
