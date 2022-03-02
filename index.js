@@ -3,17 +3,25 @@ const app = express();
 const mongoose = require("mongoose");
 const postRoute = require("./routes/posts");
 const cors = require("cors");
+require("dotenv").config();
+const booksRoute = require("./routes/books");
+const winston = require("winston");
 
-mongoose.connect("mongodb://127.0.0.1:27017/appdb", () => {
-  console.log("connected");
-});
+mongoose
+  .connect(process.env.mongo_url, () => {
+    console.log("connected");
+  })
+  .catch((err) => {
+    console.log("something happened");
+  });
 
 const authRoute = require("./routes/auth");
+const { urlencoded } = require("express");
 
 app.use(express.json());
 
 app.use(cors());
-//hiuu
+app.use(urlencoded({ extended: true }));
 app.use("/api/user", authRoute);
 app.use("/api/posts", postRoute);
 app.use((req, res, next) => {
@@ -31,6 +39,8 @@ app.use((err, req, res, next) => {
     },
   });
 });
+
+app.use("/api/books", booksRoute);
 
 app.listen(3000, () => {
   console.log("server is running");
